@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="171 Biologie-Lernkarten mit verständlichen Modellantworten, drei Niveaus, Spielrunden, Repetition, Hören, Sprechen und Lernstandsicherung. Nach dem Biologie-Skript.">
+  <title>Biologie zum Wenden · Lernkartei</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="data.js"></script>
+  <script defer src="learning.js"></script>
+  <script defer src="speech.js"></script>
+  <script defer src="concepts.js"></script>
+  <script defer src="answer-check.js"></script>
+  <script defer src="oral.js"></script>
+  <script defer src="backup.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#study">Zur Lernkarte</a>
+  <header class="masthead">
+    <a class="brand" href="#" aria-label="Biologie zum Wenden, Start"><span class="mark" aria-hidden="true">↔</span><span>BIOLOGIE<br><b>ZUM WENDEN</b></span></a>
+    <nav aria-label="Ansichten"><button class="nav active" id="study-tab" aria-pressed="true">Lernkarten</button><button class="nav" id="goals-tab" aria-pressed="false">Lernziele & Quellen</button></nav>
+    <span class="edition">REPETITION <span>01 / GRUNDLAGEN</span></span>
+  </header>
+  <main>
+    <section id="study-view">
+      <div class="intro"><div><p class="eyebrow">DAS LEBEN VERSTEHEN</p><h1>Erst erinnern.<br><em>Dann wenden.</em></h1><p class="lead">Formuliere deine Antwort. Drehe die Karte um<br class="desktop"> und vergleiche sie mit der Modellantwort.</p></div><div class="intro-note"><span class="big-number">171</span><span>KARTEN · 7 LERNZIELE</span><p>Zellen, Lebensvielfalt,<br>Forschung & der menschliche Körper.</p></div></div>
+      <div class="workspace">
+        <button id="filters-toggle" class="mobile-filter" aria-expanded="false" aria-controls="filters">Auswahl & Lernstand <span aria-hidden="true">＋</span></button>
+        <aside class="sidebar" id="filters" aria-label="Kartenauswahl">
+          <div class="section-label"><span>DEIN KARTENSTAPEL</span><span aria-hidden="true">↓</span></div>
+          <label for="search" class="sr-only">Karten durchsuchen</label><input id="search" type="search" placeholder="Frage oder Begriff suchen …" autocomplete="off">
+          <label for="goal-filter">Lernziel</label><select id="goal-filter"><option value="all">Alle Lernziele</option></select>
+          <div id="topic-list" class="topics" aria-label="Themen"></div>
+          <label for="mode">Wiederholen</label><select id="mode"><option value="all">Alle Karten</option><option value="new">Noch nicht bewertet</option><option value="again">Noch üben</option><option value="known">Gewusst</option><option value="notes">Korrekturen & Ergänzungen</option><option value="open">Offene Quellenfragen</option></select>
+          <div class="progress-block"><div><span>Dein Lernstand</span><strong id="progress-text">0 / 171</strong></div><progress id="progress" max="171" value="0" aria-label="Als gewusst markierte Karten"></progress><small>Automatische Sicherungen in diesem Browser. Backup-Datei für Gerätewechsel herunterladen.</small><p id="storage-warning" class="warning" hidden>Speicherung nicht verfügbar. Dein Lernstand gilt nur bis zum Schliessen.</p></div>
+          <details class="backup-panel"><summary>Lernstand sichern & wiederherstellen</summary>
+            <p id="backup-status" role="status">Lernstand wird geladen …</p>
+            <button id="backup-export">Backup herunterladen</button>
+            <label for="backup-import">Backup-Datei laden</label><input type="file" id="backup-import" accept=".json,application/json">
+            <label for="backup-history">Letzte Sicherungsstände</label><select id="backup-history"></select><button id="backup-restore" disabled>Sicherungsstand wiederherstellen</button>
+            <button id="backup-persist">Dauerhaften Speicher anfragen</button><p id="backup-persistence">Der Browser entscheidet, ob er den Speicher vor automatischem Aufräumen schützt.</p>
+            <p>Bewertungen, XP, Wiederholungstermine und Niveau werden automatisch gesichert. Für Gerätewechsel oder gelöschte Browserdaten brauchst du eine heruntergeladene Backup-Datei. Keine automatische Synchronisierung. Sprachaufnahmen und Antworttexte sind nicht enthalten.</p>
+          </details>
+          <button id="reset" class="text-button">Lernstand zurücksetzen</button><div id="reset-confirm" hidden><p>Alle Bewertungen, Wiederholungstermine, XP und Runden löschen?</p><button id="reset-yes">Zurücksetzen</button> <button id="reset-no">Abbrechen</button></div>
+        </aside>
+        <section class="study" id="study" tabindex="-1" aria-label="Aktuelle Lernkarte">
+          <div class="level-picker" role="group" aria-label="Anspruch wählen"><button data-level="basis" aria-pressed="true">Basis</button><button data-level="vertieft" aria-pressed="false">Vertieft</button><button data-level="profi" aria-pressed="false">Profi</button></div>
+          <p id="level-description" class="level-description" role="status"></p>
+          <section class="audio-panel" aria-labelledby="audio-title">
+            <h2 id="audio-title">Fragen anhören</h2>
+            <div class="audio-controls"><button id="audio-toggle" aria-pressed="false">Vorlesemodus starten</button><button id="audio-read">Frage vorlesen</button><button id="audio-stop" disabled>Stoppen</button><label for="audio-rate">Tempo <select id="audio-rate"><option value="0.8">Langsam</option><option value="1" selected>Normal</option><option value="1.2">Schnell</option></select></label></div>
+            <p id="audio-status" role="status" aria-live="polite"></p>
+            <small>Nach dem Start wird jede neue Frage vorgelesen. Mit «Noch einmal hören» wiederholst du sie beliebig oft von vorne. Stimme und Verfügbarkeit hängen vom Gerät ab. <a href="?vorlesen=1">Link zur Hörvariante</a></small>
+          </section>
+          <div class="play-modes" role="group" aria-label="Lernmodus"><button data-play="free" aria-pressed="true">Freies Lernen</button><button data-play="game" aria-pressed="false">Spielrunde</button><button data-play="review" aria-pressed="false">Repetition <span id="due-count">0</span></button></div>
+          <section id="round-setup" class="round-panel" hidden aria-labelledby="round-title"><p class="eyebrow" id="round-eyebrow">DEINE NÄCHSTE ETAPPE</p><h2 id="round-title">Zehn Karten. Ein Lernziel: weiterkommen.</h2><p id="round-description"></p><div class="round-totals"><span><b id="total-xp">0</b> XP gesammelt</span><span><b id="total-rounds">0</b> Runden geschafft</span></div><button id="start-round" class="primary-action">Runde starten →</button><p id="round-availability" class="round-hint"></p><details class="game-rules"><summary>So funktionieren Punkte & Wiederholung</summary><p>Antworte zuerst aus dem Gedächtnis, wende die Karte und bewerte dich ehrlich. Die Bewertung erfolgt durch dich, nicht automatisch.</p><p>10 XP für eine beim ersten Versuch gewusste Karte, 5 XP nach einem erneuten Versuch. Jede dritte gewusste Karte in Folge bringt 5 Bonus-XP. Pro Karte gibt es nur einmal am lokalen Kalendertag Punkte.</p><p>«Noch üben» setzt die Serie zurück und bringt die Karte nach bis zu drei anderen Karten wieder. Eine Runde endet, sobald jede Karte einmal als gewusst bewertet wurde. Das ist ein Etappenziel, kein Nachweis dauerhafter Beherrschung.</p><p>Gewusste Karten werden nach 1, 3, 7, 14 und schliesslich 30 Tagen erneut fällig. «Noch üben» setzt das Intervall zurück. Der Repetitionsmodus nimmt nur bereits bewertete, fällige Karten auf. Offene Quellenfragen bleiben im freien Lernen.</p><p>Die Runde verwendet deine aktuelle Karten-Auswahl. Ein Moduswechsel oder Neuladen beendet die laufende Runde; Bewertungen und bereits verdiente Punkte bleiben gespeichert.</p></details></section>
+          <div id="round-hud" class="round-hud" hidden><div><span id="round-mode-label">SPIELRUNDE</span><strong id="round-counter"></strong></div><div><span>PUNKTE</span><strong id="round-score">0 XP</strong></div><div><span>SERIE</span><strong id="round-streak">0</strong></div><progress id="round-progress" aria-label="In der Runde gewusste Karten" max="10" value="0"></progress><button id="leave-round" class="text-button">Runde beenden</button></div>
+          <p id="round-feedback" class="round-feedback" role="status" aria-live="polite" hidden></p>
+          <section id="round-result" class="round-panel result-panel" hidden tabindex="-1" aria-labelledby="result-title"><p class="eyebrow">ETAPPE GESCHAFFT</p><h2 id="result-title">Alle Karten der Runde wiederholt.</h2><p id="result-description"></p><div id="result-metrics" class="result-metrics"></div><p>Deine Wiederholungstermine sind gespeichert. Schau im Repetitionsmodus nach, welche Karten als Nächstes fällig sind.</p><button id="another-round" class="primary-action">Nächste Runde vorbereiten →</button><button id="result-review">Zur Repetition</button></section>
+          <div class="deck-bar"><p id="deck-count" role="status" aria-live="polite"></p><button id="shuffle" class="text-button">⇄ Mischen</button></div>
+          <div id="card-region">
+            <div class="card-stage" id="card-stage"><article class="card" id="card" aria-label="Lernkarte">
+              <div class="face front" id="front"><div class="card-meta"><span id="topic-label"></span><span id="card-id"></span></div><div class="question-body"><p class="eyebrow">FRAGE · <span id="card-level"></span></p><h2 id="question"></h2><figure id="question-figure" hidden><img id="question-image" alt=""><figcaption id="image-caption"></figcaption><a id="image-open" target="_blank" rel="noopener noreferrer">Abbildung vergrössern ↗</a></figure></div><div class="card-bottom"><span id="origin"></span><span aria-hidden="true">↻</span></div></div>
+              <div class="face back" id="back" inert aria-hidden="true"><div class="card-meta"><span>MODELLANTWORT</span><span id="status-label"></span></div><div id="answer" class="answer"></div><aside id="answer-note" class="answer-note" hidden></aside><div class="source"><strong>Zum Nachprüfen</strong><p id="source"></p><div id="external-links"></div></div></div>
+            </article></div>
+            <section class="audio-panel oral-panel" aria-labelledby="oral-title">
+              <h2 id="oral-title">Deine Antwort – sprechen oder tippen</h2>
+              <p>Die Spracherkennung deines Browsers kann Audio an einen externen Sprachdienst senden und Internet benötigen. Sie startet nur per Klick mit deiner Mikrofonfreigabe.</p>
+              <label for="oral-language">Erkennungssprache</label><select id="oral-language"><option value="de-DE">Deutsch</option><option value="de-CH">Deutsch (Schweiz)</option></select>
+              <div class="audio-controls"><button id="oral-start">Mündlich antworten</button><button id="oral-stop" disabled>Aufnahme beenden</button></div>
+              <p id="oral-status" role="status" aria-live="polite"></p>
+              <p id="oral-interim" class="oral-interim" hidden></p><div id="oral-alternatives" hidden><label for="oral-choice">Alternative für den zuletzt erkannten Abschnitt</label><select id="oral-choice"></select></div>
+              <label for="oral-text">Deine Antwort</label><textarea id="oral-text" rows="4" placeholder="Hier erscheint deine gesprochene Antwort. Du kannst auch tippen."></textarea>
+              <button id="oral-clear" class="text-button">Antwort löschen</button>
+              <button id="oral-check">Begriffe abgleichen</button><div id="oral-result" role="status" hidden></div>
+              <small>Der Begriffsabgleich erkennt hinterlegte Synonyme, prüft aber keine vollständige Aussage auf Richtigkeit. Keine automatische Bewertung. Text mit der Modellantwort vergleichen. Beim Kartenwechsel wird dein Antworttext gelöscht; die App speichert ihn nicht.</small>
+            </section>
+            <button id="flip" class="flip-button" aria-controls="card" aria-expanded="false">Antwort aufdecken <span aria-hidden="true">↻</span></button>
+            <div class="rating" id="rating" hidden><button id="again">↺ Noch üben</button><button id="known">✓ Gewusst</button></div>
+            <div class="card-nav"><button id="prev" aria-label="Vorherige Karte">← <span>Zurück</span></button><span id="position"></span><button id="next" aria-label="Nächste Karte"><span>Weiter</span> →</button></div>
+            <p class="keyboard">LEERTASTE wenden <span>·</span> ← → blättern <span>·</span> 1 noch üben <span>·</span> 2 gewusst</p>
+          </div>
+          <div id="empty" class="empty" hidden><span aria-hidden="true">✓</span><h2 id="empty-title">Keine passenden Karten</h2><p id="empty-text">Passe die Auswahl an oder setze die Filter zurück.</p><button id="clear-filters">Alle Karten anzeigen</button></div>
+          <p id="announcement" class="sr-only" role="status" aria-live="polite"></p>
+        </section>
+      </div>
+    </section>
+    <section id="goals-view" hidden aria-labelledby="goals-title"><p class="eyebrow">LERNZIELE & NACHWEISE</p><h1 id="goals-title">Das Leben verstehen.</h1><p class="lead">Sieben Lernziele aus deinem Biologie-Skript: von den Lebensmerkmalen bis zu zwölf Organsystemen.</p>
+<div class="scope-note"><h2>Deine Arbeitsgrundlage</h2><p>Grundlage ist <b>IMG_6967.pdf</b> mit 19 fotografierten Seiten. Die Quellenangabe auf jeder Karte verwendet die <b>PDF-Seitenzählung</b>, nicht die Seitenzahl des abgebildeten Lehrbuchs.</p><p>Alle sieben Lernziele und alle vollständig lesbaren Aufgaben sind zugeordnet. Die Fragen zu Teilgebieten enthalten eigene Beispiele; die Profikarten vertiefen das Begründen, Vergleichen und Anwenden. Die Modellantworten sind in eigenen Worten formuliert.</p><p>Einzelne Bildränder sind abgeschnitten. Auf Seite 4 sind nur Antwortnotizen zu A–C sichtbar; deren vollständige Fragen fehlen. Die Fortsetzung «Sauerstoff bringt den Durchbruch» auf Seite 8 sowie lediglich verlinkte OneNote-Inhalte sind nicht enthalten. Diese fehlenden Inhalte werden nicht als geprüft ausgegeben.</p><div id="status-summary" class="status-summary"></div></div><div id="goal-cards" class="goal-grid"></div>
+<section class="audit-section"><h2>Präzisierungen, die beim Lernen helfen</h2><ul><li>Die fünf Reiche sind ein historisches Schulmodell. Bakterien und Archaeen haben keinen Zellkern; «Einzeller» ist kein eindeutiger Verwandtschaftsbegriff.</li><li>Auch Pflanzen betreiben Zellatmung. Viren sind keine selbstständig lebenden Zellen.</li><li>Population bedeutet artgleiche Individuen eines Gebiets – nicht «Lebensräume», wie in einer handschriftlichen Lücke.</li><li>Ursprungshypothesen sind keine bewiesenen Ablaufberichte. Heutige Archaeen leben auch ausserhalb extremer Lebensräume.</li><li>Ein bestätigter Einzelversuch macht eine Hypothese nicht automatisch zur Theorie.</li><li>Im Körper arbeiten die Systeme zusammen. Wasser wird in der Niere nicht aktiv zurückgepumpt; die Hypophyse steuert nicht jedes Hormon allein.</li></ul><p><a href="docs/ABDECKUNG.md">Aufgaben-Zuordnung</a> · <a href="docs/PRUEFBERICHT.md">Prüfbericht und Annahmen</a> · <a href="cards.json" download>Alle Karten als JSON</a></p></section>
+<section class="audit-section"><h2>Ergänzende Fachquellen</h2><p>Der Skriptabgleich wurde am 5. Oktober 2026 durch Quellen von Forschungs- und Bildungseinrichtungen ergänzt. Fachliche Korrekturen sind auf den betroffenen Karten erklärt. Die Originalfotos werden nicht veröffentlicht.</p><ul id="bibliography"></ul></section></section>
+  </main>
+  <footer><span>Wissen entsteht durch Verknüpfen.</span><span>Leben · Forschen · Verstehen</span></footer>
+  <noscript>Bitte aktiviere JavaScript, um die Lernkarten zu wenden. Alle Fragen und Antworten stehen zusätzlich in der Datei cards.json.</noscript>
+</body>
+</html>
